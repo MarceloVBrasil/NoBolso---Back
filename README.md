@@ -13,7 +13,7 @@ This is the backend of NoBolso, a project designed to keep you in track with you
 ## How to run the application
 
 - yarn install
-- yarn start
+- yarn start 
 
 ## How to run tests
 - yarn test - run all the tests at once
