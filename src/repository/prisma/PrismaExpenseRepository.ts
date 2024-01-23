@@ -3,17 +3,17 @@ import { PrismaClient } from "@prisma/client"
 import { IExpense } from "../../models/Expenses"
 import { IExpenseRepository } from "../interfaces/IExpenseRepository"
 import { prisma_formatMonthlyIndividuallyData, prisma_formatSumCategoryId, prisma_formatYearlyData } from "./helper"
-import { IGetByMonthGroupedByCategory, IGetByMonthIndividually, IGetExpenseFromPast12Months } from "../interfaces/IMethods"
+import { IGetByMonthGroupedByCategory, IGetByMonthIndividually, IGetTotalGroupedByDate } from "../interfaces/IMethods"
 
 export class PrismaExpensesRepository implements IExpenseRepository {
     private prisma: PrismaClient = new PrismaClient()
 
     constructor() { }
 
-    async getFromPast12Months(userId: string, month: number, year: number): Promise<IGetExpenseFromPast12Months[]> {
+    async getTotalGroupedByDate(userId: string, startDate: Date, endDate: Date): Promise<IGetTotalGroupedByDate[]> {
         const expenses = await this.prisma.expense.groupBy({
             by: ['data'],
-            where: { userId, AND: [{ data: { lte: new Date(`${year}/${month}/28`), gte: new Date(`${year - 1}/${month}/28`) } }] },
+            where: { userId, AND: [{ data: { lte: endDate, gte: startDate } }] },
             _sum: { total: true }
         })
 

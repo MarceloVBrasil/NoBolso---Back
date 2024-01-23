@@ -34,7 +34,6 @@ export class CategoryController {
         try {
             const categoryService = CategoryFactory()
             const dadosValidados = await addCategorySchema().validate({ ...req.body }, { stripUnknown: true })
-
             const resultado = await categoryService.add(dadosValidados)
             res.status(201).json(resultado)
         } catch (error: any) {

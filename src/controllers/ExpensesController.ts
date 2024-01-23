@@ -30,7 +30,6 @@ export class ExpensesController {
 
             res.json(resultado)
         } catch (error: any) {
-            console.log(error.message)
             res.status(400).json({ erro: error.message })
         }
     }
