@@ -9,15 +9,23 @@ export class PrismaCategoryRepository implements ICategoryRepository {
     constructor() { }
 
     async getById(categoryId: string): Promise<ICategory | null> {
-        return this.prisma.category.findUnique({ where: { id: categoryId } })
+        const category = await this.prisma.category.findUniqueOrThrow({ where: { id: categoryId } })
+
+        return { ...category, tipo: category.tipo as CategoriaTipo }
     }
 
     async getAll(userId: string): Promise<IGetAllCategories[]> {
-        return this.prisma.category.findMany({ where: { userId }, select: { nome: true, meta: true, id: true, tipo: true }, orderBy: { meta: 'asc' } })
+        const categories = await this.prisma.category.findMany({ where: { userId }, select: { nome: true, meta: true, id: true, tipo: true }, orderBy: { meta: 'asc' } })
+        const fcategories = categories.map(c => { return { ...c, tipo: c.tipo as CategoriaTipo } })
+
+        return fcategories
     }
 
     async getByTipo(userId: string, tipo: string): Promise<ICategory[]> {
-        return await this.prisma.category.findMany({ where: { AND: [{ userId }, { tipo }] } })
+        const categories = await this.prisma.category.findMany({ where: { AND: [{ userId }, { tipo }] } })
+        const fcategories = categories.map(c => { return { ...c, tipo: c.tipo as CategoriaTipo } })
+
+        return fcategories
     }
 
     async checkExistence(nome: string, tipo: CategoriaTipo): Promise<boolean> {
@@ -25,11 +33,15 @@ export class PrismaCategoryRepository implements ICategoryRepository {
     }
 
     async add(categoria: ICategory) {
-        return await this.prisma.category.create({ data: categoria })
+        const category = await this.prisma.category.create({ data: categoria })
+
+        return { ...category, tipo: category.tipo as CategoriaTipo }
     }
 
     async update(categoyId: string, category: ICategory): Promise<ICategory> {
-        return await this.prisma.category.update({ where: { id: categoyId }, data: { ...category } })
+        const updatedCategory = await this.prisma.category.update({ where: { id: categoyId }, data: { ...category } })
+
+        return { ...updatedCategory, tipo: updatedCategory.tipo as CategoriaTipo }
     }
     async delete(categoryId: string): Promise<string> {
         return (await this.prisma.category.delete({ where: { id: categoryId } })).id

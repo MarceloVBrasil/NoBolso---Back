@@ -7,7 +7,7 @@ let authService: AuthService | null = null
 export function AuthFactory() {
     if (!authService) {
 
-        authService = new AuthService(new InMemoryUserRepository())
+        authService = new AuthService(new PrismaUserRepository())
     }
 
     return authService
