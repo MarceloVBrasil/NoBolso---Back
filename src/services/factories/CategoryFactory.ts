@@ -8,7 +8,7 @@ export function CategoryFactory() {
     if (!categoryService) {
 
         categoryService = new CategoryService(
-            new PrismaCategoryRepository(),
+            new InMemoryCategoryRepository(),
         )
     }
     return categoryService
