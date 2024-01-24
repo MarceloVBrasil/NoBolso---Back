@@ -47,6 +47,7 @@ describe("Revenue Service", () => {
         test("O método getByMonthGroupedByCategory deve retornar array com as receitas agrupados por categoria de um determinado intervalo de tempo", async () => {
             const revenuedGroupedByCategory = await revenueService.getByMonthGroupedByCategory(userId, mes_janeiro, ano_2023)
             expect(revenuedGroupedByCategory[0]).toHaveProperty('categoria')
+            expect(revenuedGroupedByCategory[0]).toHaveProperty('meta')
         })
     })
 
