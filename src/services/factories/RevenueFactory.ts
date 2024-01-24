@@ -7,7 +7,7 @@ let revenueServiceInstance: RevenueService | null = null
 export function RevenueFactory() {
     if (!revenueServiceInstance) {
         revenueServiceInstance = new RevenueService(
-            new InMemoryRevenueRepository()
+            new PrismaRevenueRepository()
         )
     }
 

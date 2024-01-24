@@ -7,7 +7,7 @@ let expenseService: ExpensesService | null = null
 export function ExpensesFactory() {
     if (!expenseService) {
         expenseService = new ExpensesService(
-            new InMemoryExpensesRepository()
+            new PrismaExpensesRepository()
         )
     }
 
