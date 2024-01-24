@@ -47,6 +47,7 @@ describe("Expenses Service", () => {
         test("O método getByMonthGroupedByCategory deve retornar array com os gastos agrupados por categoria de um determinado intervalo de tempo", async () => {
             const expensesGroupedByCategory = await expenseService.getByMonthGroupedByCategory(userId, mes_janeiro, ano_2023)
             expect(expensesGroupedByCategory[0]).toHaveProperty('categoria')
+            expect(expensesGroupedByCategory[0]).toHaveProperty('meta')
         })
     })
 
